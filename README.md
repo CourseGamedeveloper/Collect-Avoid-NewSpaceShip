@@ -1,10 +1,13 @@
 ### About:
 the space ship need to get score 100 to win the game,the space ship can take the red heart for healing 
+
+---
 ### How to run the code:
 1. first do get clone for the code
 2. open the code in unity
 3. open the Scene Game in the prject and click on buttom play
 4. another opation to play the game in link below
+---
 ### Summary of Classes in the Project:
 1. PlayerController:
 
