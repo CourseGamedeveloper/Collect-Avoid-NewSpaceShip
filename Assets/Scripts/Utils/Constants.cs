@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class Constants 
+public static class Constants
 {
     [SerializeField]
     [Tooltip("Speed of movement, in meters per second")]
