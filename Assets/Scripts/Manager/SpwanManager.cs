@@ -1,37 +1,53 @@
 using UnityEngine;
-using System.Collections;
 
-public class SpwanManager : MonoBehaviour
+/// <summary>
+/// Manages the spawning of objects (e.g., enemies) at random intervals.
+/// </summary>
+public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject Prefab;
+    [Tooltip("The prefab to spawn (e.g., an enemy or collectible).")]
+    private GameObject prefab;
 
     [SerializeField]
-    private float minimumSpwanTime;
+    [Tooltip("The minimum time interval between spawns.")]
+    private float minimumSpawnTime;
 
     [SerializeField]
-    private float maxiumSpwanTime;
+    [Tooltip("The maximum time interval between spawns.")]
+    private float maximumSpawnTime;
 
-    private float TimeUntilSpwan;
+    private float timeUntilSpawn; // Time left until the next spawn
 
-    void Awake()
+    /// <summary>
+    /// Initializes the spawn timer.
+    /// </summary>
+    private void Awake()
     {
-        SetTimeUnitlSpwan();
+        SetTimeUntilSpawn();
     }
 
-    void Update()
+    /// <summary>
+    /// Updates the spawn timer and spawns the object when the timer reaches zero.
+    /// </summary>
+    private void Update()
     {
-        TimeUntilSpwan-=Time.deltaTime;
-        if(TimeUntilSpwan <= 0)
+        timeUntilSpawn -= Time.deltaTime;
+        if (timeUntilSpawn <= 0)
         {
-            Instantiate(Prefab,transform.position,Quaternion.identity);
-            SetTimeUnitlSpwan();
+            // Spawn the object
+            Instantiate(prefab, transform.position, Quaternion.identity);
+
+            // Reset the timer for the next spawn
+            SetTimeUntilSpawn();
         }
     }
-    private void SetTimeUnitlSpwan()
+
+    /// <summary>
+    /// Sets a random time interval for the next spawn, between the minimum and maximum spawn times.
+    /// </summary>
+    private void SetTimeUntilSpawn()
     {
-        TimeUntilSpwan=Random.Range(minimumSpwanTime, maxiumSpwanTime);
+        timeUntilSpawn = Random.Range(minimumSpawnTime, maximumSpawnTime);
     }
-
-
 }
