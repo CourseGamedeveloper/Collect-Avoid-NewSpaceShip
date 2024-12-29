@@ -87,5 +87,9 @@ Moves the laser upward at a predefined speed.
 Deactivates itself upon leaving the screen boundaries.
 
 --- 
+### UML Diagram:
+![UML Diagram ](https://github.com/user-attachments/assets/401e171e-917e-4886-807f-b98560d4dead)
+
+---
 ### Links:
 Link to the game:https://ibrahem-hurani.itch.io/spaceship
