@@ -6,7 +6,7 @@ left click on mouse-> spaceship shoot laser
 
 ---
 ### How to run the code:
-1. first do get clone for the code
+1. first do get clone for the code:https://github.com/CourseGamedeveloper/Collect-Avoid-NewSpaceShip.git
 2. open the code in unity
 3. open the Scene Game in the prject and click on buttom play
 4. another opation to play the game in link below
