@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class CollectibleItem : MonoBehaviour
 {
-   
     [SerializeField]
-    [Tooltip("how much Healing for the player when take the heart")]
+    [Tooltip("How much healing for the player when they take the heart")]
     private float PointHealing = 10f;
 
     private void OnCollisionEnter2D(Collision2D collision)
