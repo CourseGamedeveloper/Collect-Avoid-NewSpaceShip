@@ -1,5 +1,8 @@
 ### About:
 the space ship need to get score 100 to win the game,the space ship can take the red heart for healing 
+### How to Play the Game:
+Arrows-> Move the spaceShip
+left click on mouse-> spaceship shoot laser
 
 ---
 ### How to run the code:
