@@ -96,7 +96,7 @@ This class, PlayerSpawner, spawns a player character at a random position within
 
 --- 
 ### UML Diagram:
-![UML Diagram ](https://github.com/user-attachments/assets/401e171e-917e-4886-807f-b98560d4dead)
+![SpaceShipMultiPlayer diagram](https://github.com/user-attachments/assets/0ce90cdc-1391-4208-9ee1-d023a2d45944)
 
 ---
 ### Links:
