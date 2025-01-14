@@ -2,6 +2,7 @@
 the space ship need to get score 100 to win the game,the space ship can take the red heart for healing 
 ### How to Play the Game:
 Arrows-> Move the spaceShip
+
 left click on mouse-> spaceship shoot laser
 
 ---
@@ -89,6 +90,8 @@ Responsibilities:
 Moves the laser upward at a predefined speed.
 Deactivates itself upon leaving the screen boundaries.
 
+9. PlayerSpawner
+This class, PlayerSpawner, spawns a player character at a random position within a specified range when a new player joins the game, ensuring the local player spawns only once using Fusion's PlayerRef.
 --- 
 ### UML Diagram:
 ![UML Diagram ](https://github.com/user-attachments/assets/401e171e-917e-4886-807f-b98560d4dead)
