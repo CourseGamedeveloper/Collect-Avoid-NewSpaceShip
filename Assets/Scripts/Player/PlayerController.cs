@@ -4,10 +4,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : NetworkBehaviour
 {
-    
     [Tooltip("Player's starting health.")]
     [SerializeField]
-    public  float PlayerHealth ;
+    public float PlayerHealth;
 
     [SerializeField]
     [Tooltip("Input action for player movement.")]
@@ -39,27 +38,24 @@ public class PlayerController : NetworkBehaviour
     {
         if (!Object.HasStateAuthority)
         {
-            return; // Only the client with state authority can control this player
+            return;
         }
 
-        // Handle player movement
         Vector2 moveInput = move.ReadValue<Vector2>();
-        movementVector = new Vector3(moveInput.x, moveInput.y, 0) * Constants.Player_speed * Runner.DeltaTime; // Use y for vertical movement
+        movementVector = new Vector3(moveInput.x, moveInput.y, 0) * Constants.Player_speed * Runner.DeltaTime;
         transform.position += movementVector;
 
-        // Handle laser shooting
         if (Input.GetMouseButtonDown(0))
         {
             Laser();
         }
     }
 
-
     public void Take_Damage(float damage)
     {
         if (!Object.HasStateAuthority)
         {
-            return; // Only the authority client can change health
+            return;
         }
 
         PlayerHealth -= damage;
@@ -67,7 +63,7 @@ public class PlayerController : NetworkBehaviour
 
         if (PlayerHealth <= 0)
         {
-            Runner.Despawn(Object); // Despawn the player when health is zero
+            Runner.Despawn(Object);
         }
     }
 
@@ -87,17 +83,11 @@ public class PlayerController : NetworkBehaviour
     {
         if (!Object.HasStateAuthority)
         {
-            return; // Ensure only the owning client can shoot.
+            return;
         }
 
-        // Define the laser's initial position and rotation.
         Vector3 laserPosition = transform.position + Vector3.up * 1f;
         Quaternion laserRotation = Quaternion.identity;
-
-        // Spawn the laser using Photon Fusion.
         Runner.Spawn(LaserPrefab, laserPosition, laserRotation, Object.InputAuthority);
     }
-   
-
-
 }
