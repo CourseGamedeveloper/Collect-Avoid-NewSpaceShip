@@ -11,7 +11,7 @@ public class EnemyBase : MonoBehaviour
 
     [Tooltip("The damage the enemy deals to the player.")]
     [SerializeField]
-    private float damage = 10f;
+    private float damage;
 
     private Rigidbody2D rigidbody;
 
@@ -48,7 +48,7 @@ public class EnemyBase : MonoBehaviour
         else if (collision.collider.CompareTag("Player"))
         {
             // Deal damage to the player
-            collision.collider.GetComponent<PlayerController>().Take_Damge(damage);
+            collision.collider.GetComponent<PlayerController>().Take_Damage(damage);
 
             // Destroy this enemy after colliding with the player
             Destroy(gameObject);

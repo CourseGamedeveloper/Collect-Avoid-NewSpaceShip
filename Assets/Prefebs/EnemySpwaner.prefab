@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7082384158915679702}
   m_Layer: 0
   m_Name: EnemySpwaner
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be0b19564a7dc8048852e8d546ffb79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 0}
-  minimumSpwanTime: 2
-  maxiumSpwanTime: 5
+  prefab: {fileID: 6718393506727452674, guid: 8e95d28f70f0c5242a423fca1988682c, type: 3}
+  minimumSpawnTime: 0
+  maximumSpawnTime: 0

@@ -1,99 +1,103 @@
+using Fusion;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Handles player movement, health, and laser shooting.
-/// </summary>
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
-    [SerializeField]
+    
     [Tooltip("Player's starting health.")]
-    public static float PlayerHealth = 100f;
+    [SerializeField]
+    public  float PlayerHealth ;
 
     [SerializeField]
     [Tooltip("Input action for player movement.")]
-    InputAction move = new InputAction(type: InputActionType.Value, expectedControlType: nameof(Vector2));
+    private InputAction move = new InputAction(type: InputActionType.Value, expectedControlType: nameof(Vector2));
 
     [SerializeField]
     [Tooltip("Prefab for spawning lasers.")]
     private GameObject LaserPrefab;
 
-    private UIManager uiManger;
+    private UIManager uiManager;
+    private Vector3 movementVector;
 
-    /// <summary>
-    /// Initializes references.
-    /// </summary>
     private void Awake()
     {
-        uiManger = FindAnyObjectByType<UIManager>();
+        uiManager = FindAnyObjectByType<UIManager>();
     }
 
-    /// <summary>
-    /// Enables the movement input action.
-    /// </summary>
     private void OnEnable()
     {
         move.Enable();
     }
 
-    /// <summary>
-    /// Disables the movement input action.
-    /// </summary>
     private void OnDisable()
     {
         move.Disable();
     }
 
-    /// <summary>
-    /// Updates the player's position and handles laser shooting.
-    /// </summary>
-    private void Update()
+    public override void FixedUpdateNetwork()
     {
+        if (!Object.HasStateAuthority)
+        {
+            return; // Only the client with state authority can control this player
+        }
+
         // Handle player movement
-        Vector2 moveDirection = move.ReadValue<Vector2>();
-        Vector3 movementVector = new Vector3(moveDirection.x, moveDirection.y, 0) * Constants.Player_speed * Time.deltaTime;
+        Vector2 moveInput = move.ReadValue<Vector2>();
+        movementVector = new Vector3(moveInput.x, moveInput.y, 0) * Constants.Player_speed * Runner.DeltaTime; // Use y for vertical movement
         transform.position += movementVector;
 
-        // Shoot a laser on mouse click
+        // Handle laser shooting
         if (Input.GetMouseButtonDown(0))
         {
             Laser();
         }
     }
 
-    /// <summary>
-    /// Reduces player's health when taking damage.
-    /// </summary>
-    /// <param name="_damge">Amount of damage to take.</param>
-    public void Take_Damge(float _damge)
-    {
-        PlayerHealth -= _damge;
-        uiManger.UpdateHealthBar(PlayerHealth);
 
-        // Check if the player's health reaches zero
+    public void Take_Damage(float damage)
+    {
+        if (!Object.HasStateAuthority)
+        {
+            return; // Only the authority client can change health
+        }
+
+        PlayerHealth -= damage;
+        uiManager.UpdateHealthBar(PlayerHealth);
+
         if (PlayerHealth <= 0)
         {
-            Destroy(this);
+            Runner.Despawn(Object); // Despawn the player when health is zero
         }
     }
 
-    /// <summary>
-    /// Heals the player and updates the health bar.
-    /// </summary>
-    /// <param name="healhPoints">Amount of health to heal.</param>
-    public void Healing(float healhPoints)
+    public void Healing(float healAmount)
     {
-        PlayerHealth += healhPoints;
+        if (!Object.HasStateAuthority)
+        {
+            return;
+        }
+
+        PlayerHealth += healAmount;
         PlayerHealth = Mathf.Clamp(PlayerHealth, 0, 100);
-        uiManger.UpdateHealthBar(PlayerHealth);
+        uiManager.UpdateHealthBar(PlayerHealth);
     }
 
-    /// <summary>
-    /// Spawns a laser above the player.
-    /// </summary>
     private void Laser()
     {
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-        Instantiate(LaserPrefab, pos, Quaternion.identity);
+        if (!Object.HasStateAuthority)
+        {
+            return; // Ensure only the owning client can shoot.
+        }
+
+        // Define the laser's initial position and rotation.
+        Vector3 laserPosition = transform.position + Vector3.up * 1f;
+        Quaternion laserRotation = Quaternion.identity;
+
+        // Spawn the laser using Photon Fusion.
+        Runner.Spawn(LaserPrefab, laserPosition, laserRotation, Object.InputAuthority);
     }
+   
+
+
 }
